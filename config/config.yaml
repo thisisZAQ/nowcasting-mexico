@@ -1,0 +1,44 @@
+# config/config.yaml
+# Central configuration for the nowcasting-mexico pipeline.
+# Every script reads from here — nothing hardcoded elsewhere.
+
+# ── Sample period ─────────────────────────────────────────────────────────────
+dates:
+  start:            "2010-01-01"
+  end:              "2024-09-30"
+  forecast_horizon: 2
+
+# ── Target variable ───────────────────────────────────────────────────────────
+target:
+  name:             "IGAE"
+  description:      "Global Indicator of Economic Activity (proxy for GDP)"
+  frequency:        "monthly"
+  transformation:   "log_diff"
+  publication_lag_days: 50
+  source_file:      "data/raw/inegi/igae.csv"
+
+# ──
+cat > config/config.yaml << 'ENDOFFILE'
+# config/config.yaml
+# Central configuration for the nowcasting-mexico pipeline.
+# Every script reads from here — nothing hardcoded elsewhere.
+
+# ── Sample period ─────────────────────────────────────────────────────────────
+dates:
+  start:            "2010-01-01"
+  end:              "2024-09-30"
+  forecast_horizon: 2
+
+# ── Target variable ───────────────────────────────────────────────────────────
+target:
+  name:             "IGAE"
+  description:      "Global Indicator of Economic Activity (proxy for GDP)"
+  frequency:        "monthly"
+  transformation:   "log_diff"
+  publication_lag_days: 50
+  source_file:      "data/raw/inegi/igae.csv"
+
+# ──
+git add .
+git commit -m "Align config and folder structure with thesis research design"
+git push origin main

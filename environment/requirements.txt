@@ -9,3 +9,5 @@ seaborn>=0.12
 jupyter>=1.0
 python-dotenv>=1.0
 tqdm>=4.65
+pyyaml>=6.0
+pip-tools>=7.0

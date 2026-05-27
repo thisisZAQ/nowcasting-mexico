@@ -6,3 +6,4 @@ renv/staging/
 renv/python/
 renv/sandbox/
 .Rprofile
+renv/

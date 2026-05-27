@@ -1,0 +1,8 @@
+
+# Environments — never commit, use renv::restore() and pip install instead
+.venv/
+renv/library/
+renv/staging/
+renv/python/
+renv/sandbox/
+.Rprofile

@@ -2,43 +2,146 @@
 # Central configuration for the nowcasting-mexico pipeline.
 # Every script reads from here — nothing hardcoded elsewhere.
 
-# ── Sample period ─────────────────────────────────────────────────────────────
+# ── Sample period ────────────────────────────────────────────────────────────
 dates:
-  start:            "2010-01-01"
-  end:              "2024-09-30"
-  forecast_horizon: 2
+  start:            "2010-01-01"   # Google Trends reliable from ~2010
+  end:              "2024-09-30"   # Last complete quarter before writing
+  forecast_horizon: 2              # quarters ahead to nowcast
 
-# ── Target variable ───────────────────────────────────────────────────────────
+# ── Target variable ──────────────────────────────────────────────────────────
 target:
   name:             "IGAE"
   description:      "Global Indicator of Economic Activity (proxy for GDP)"
   frequency:        "monthly"
-  transformation:   "log_diff"
-  publication_lag_days: 50
+  transformation:   "log_diff"     # log_diff | diff | level
+  publication_lag_days: 50         # INEGI releases ~50 days after reference month
   source_file:      "data/raw/inegi/igae.csv"
 
-# ──
-cat > config/config.yaml << 'ENDOFFILE'
-# config/config.yaml
-# Central configuration for the nowcasting-mexico pipeline.
-# Every script reads from here — nothing hardcoded elsewhere.
+# ── Traditional indicators ───────────────────────────────────────────────────
+traditional:
+  industrial_production:
+    file:              "data/raw/inegi/industrial_production.csv"
+    frequency:         "monthly"
+    transformation:    "log_diff"
+    publication_lag_days: 40
+  retail_sales:
+    file:              "data/raw/inegi/retail_sales.csv"
+    frequency:         "monthly"
+    transformation:    "log_diff"
+    publication_lag_days: 45
+  employment_imss:
+    file:              "data/raw/inegi/employment_imss.csv"
+    frequency:         "monthly"
+    transformation:    "log_diff"
+    publication_lag_days: 20
+  exchange_rate:
+    series_id:         "SF43718"
+    frequency:         "daily"
+    transformation:    "log_diff"
+    publication_lag_days: 1
+  cetes_28:
+    series_id:         "SF43936"
+    frequency:         "monthly"
+    transformation:    "diff"
+    publication_lag_days: 7
 
-# ── Sample period ─────────────────────────────────────────────────────────────
-dates:
-  start:            "2010-01-01"
-  end:              "2024-09-30"
-  forecast_horizon: 2
+# ── Alternative high-frequency data ──────────────────────────────────────────
+alternative:
 
-# ── Target variable ───────────────────────────────────────────────────────────
-target:
-  name:             "IGAE"
-  description:      "Global Indicator of Economic Activity (proxy for GDP)"
-  frequency:        "monthly"
-  transformation:   "log_diff"
-  publication_lag_days: 50
-  source_file:      "data/raw/inegi/igae.csv"
+  google_trends:
+    geo:               "MX"
+    frequency:         "monthly"
+    publication_lag_days: 3
+    keywords:
+      - "desempleo Mexico"
+      - "crédito hipotecario"
+      - "inflación Mexico"
+      - "tipo de cambio"
+      - "IMSS empleo"
+      - "remate"
+      - "venta de autos"
 
-# ──
-git add .
-git commit -m "Align config and folder structure with thesis research design"
-git push origin main
+  google_mobility:
+    file:              "data/raw/mobility/google_mobility_MX.csv"
+    frequency:         "daily"
+    publication_lag_days: 3
+    categories:
+      - "retail_and_recreation_percent_change_from_baseline"
+      - "workplaces_percent_change_from_baseline"
+      - "transit_stations_percent_change_from_baseline"
+
+  apple_mobility:
+    file:              "data/raw/mobility/apple_mobility_MX.csv"
+    frequency:         "daily"
+    publication_lag_days: 3
+    categories:
+      - "driving"
+      - "transit"
+      - "walking"
+
+  banxico_payments:
+    frequency:         "monthly"
+    publication_lag_days: 30
+    series:
+      remittances:     "SE27797"   # Remesas totales (millones USD)
+      m1:              "BM20257"   # Agregado monetario M1
+      credit_private:  "SF30626"   # Crédito al sector privado
+
+# ── Banxico API ──────────────────────────────────────────────────────────────
+banxico:
+  token_env_var: "BANXICO_TOKEN"   # Read from .env — never hardcode
+
+# ── Models ────────────────────────────────────────────────────────────────────
+models:
+
+  benchmark_ar:
+    lags: 4
+
+  benchmark_dfm:
+    description:   "DFM on traditional data only"
+    factors:       2
+    lags:          2
+    max_iter:      500
+    tolerance:     1.0e-6
+
+  augmented_dfm:
+    description:   "DFM + alternative data"
+    factors:       3
+    lags:          2
+    max_iter:      500
+    tolerance:     1.0e-6
+
+  midas:
+    polynomial:    "nealmon"       # nealmon | beta | almon
+    lags_high_freq: 3
+
+  ml:
+    methods:
+      - "lasso"
+      - "ridge"
+      - "random_forest"
+    cv_folds:      5
+    expanding_window: true
+
+# ── Evaluation ──────────────────────────────────────────────────────────────
+evaluation:
+  pseudo_oos_start: "2018-01-01"   # Start of real-time evaluation window
+  metrics:
+    - "RMSE"
+    - "MAE"
+    - "MAPE"
+  forecast_comparison_test: "DM"   # Diebold-Mariano
+
+# ── Seasonal adjustment ────────────────────────────────────────────────────────
+seasonal:
+  method:    "x13"                # x13 | stl
+  transform: "auto"
+
+# ── Output paths ────────────────────────────────────────────────────────────
+paths:
+  raw:        "data/raw/"
+  processed:  "data/processed/"
+  final:      "data/final/"
+  figures:    "outputs/figures/"
+  tables:     "outputs/tables/"
+  manuscript: "outputs/manuscript/"

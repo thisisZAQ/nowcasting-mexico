@@ -118,9 +118,11 @@ fx <- read_banxico("exchange_rate") |>
   summarise(fx_avg = mean(value, na.rm = TRUE), .groups = "drop") |>
   mutate(fx_ldiff = log_diff(fx_avg))
 
-# CETES 28: already monthly
+# CETES 28: weekly -> monthly average
 cetes <- read_banxico("cetes_28") |>
-  rename(cetes_28 = value) |>
+  mutate(date = floor_date(date, "month")) |>
+  group_by(date) |>
+  summarise(cetes_28 = mean(value, na.rm = TRUE), .groups = "drop") |>
   mutate(cetes_diff = c(NA, diff(cetes_28)))
 
 # M1: already monthly

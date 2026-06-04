@@ -1,1 +1,158 @@
-# TODO: implement compile_results.R
+# scripts/04_evaluate/compile_results.R
+# Generates LaTeX tables for thesis manuscript
+# Outputs: outputs/manuscript/results_summary.tex
+
+library(dplyr)
+library(readr)
+library(yaml)
+library(here)
+
+cfg         <- yaml::read_yaml(here("config", "config.yaml"))
+tables_dir  <- here("outputs", "tables")
+ms_dir      <- here("outputs", "manuscript")
+dir.create(ms_dir, showWarnings=FALSE, recursive=TRUE)
+
+# ── Load results ──────────────────────────────────────────────────────────────
+errors <- read_csv(file.path(tables_dir, "forecast_errors.csv"),
+                   show_col_types=FALSE)
+dm     <- read_csv(file.path(tables_dir, "dm_test_results.csv"),
+                   show_col_types=FALSE)
+
+# ── Helper: wrap in LaTeX table environment ───────────────────────────────────
+latex_table <- function(lines, caption, label) {
+  c(
+    "\\begin{table}[htbp]",
+    "  \\centering",
+    sprintf("  \\caption{%s}", caption),
+    sprintf("  \\label{%s}", label),
+    lines,
+    "\\end{table}",
+    ""
+  )
+}
+
+# ── Table 1: Forecast accuracy ────────────────────────────────────────────────
+# Join errors with DM results
+dm_joined <- dm |>
+  select(model, DM_stat, p_value) |>
+  mutate(
+    dm_str = ifelse(
+      !is.na(DM_stat),
+      sprintf("%.3f (%.3f)", DM_stat, p_value),
+      "—"
+    )
+  )
+
+tbl1 <- errors |>
+  left_join(dm_joined, by="model") |>
+  mutate(
+    RMSE_str = sprintf("%.4f", RMSE),
+    MAE_str  = sprintf("%.4f", MAE),
+    # Mark best model
+    RMSE_str = ifelse(RMSE == min(RMSE), paste0("\\textbf{", RMSE_str, "}"), RMSE_str),
+    MAE_str  = ifelse(MAE  == min(MAE),  paste0("\\textbf{", MAE_str,  "}"), MAE_str),
+    dm_str   = ifelse(is.na(dm_str), "—", dm_str)
+  )
+
+tbl1_lines <- c(
+  "  \\begin{tabular}{lcccc}",
+  "    \\hline\\hline",
+  "    Model & RMSE & MAE & DM Stat & $p$-value \\\\",
+  "    \\hline",
+  sapply(seq_len(nrow(tbl1)), function(i) {
+    row <- tbl1[i, ]
+    dm_stat <- ifelse(is.na(row$DM_stat), "—", sprintf("%.3f", row$DM_stat))
+    p_val   <- ifelse(is.na(row$p_value), "—", sprintf("%.3f", row$p_value))
+    # Add significance stars
+    stars <- ""
+    if (!is.na(row$p_value)) {
+      if (row$p_value < 0.01)  stars <- "$^{***}$"
+      else if (row$p_value < 0.05) stars <- "$^{**}$"
+      else if (row$p_value < 0.10) stars <- "$^{*}$"
+    }
+    sprintf("    %s & %s & %s & %s%s & %s \\\\",
+            row$model, row$RMSE_str, row$MAE_str, dm_stat, stars, p_val)
+  }),
+  "    \\hline",
+  "    \\multicolumn{5}{l}{\\footnotesize Note: DM test vs. AR(4) benchmark. Negative DM stat indicates improvement.} \\\\",
+  "    \\multicolumn{5}{l}{\\footnotesize $^{*}p<0.10$, $^{**}p<0.05$, $^{***}p<0.01$. Bold = best in column.} \\\\",
+  "    \\hline\\hline",
+  "  \\end{tabular}"
+)
+
+table1 <- latex_table(
+  tbl1_lines,
+  caption = "Pseudo Out-of-Sample Nowcasting Accuracy, 2018--2024",
+  label   = "tab:forecast_accuracy"
+)
+
+# ── Table 2: Model descriptions ───────────────────────────────────────────────
+table2_lines <- c(
+  "  \\begin{tabular}{lll}",
+  "    \\hline\\hline",
+  "    Model & Data & Method \\\\",
+  "    \\hline",
+  "    AR(4) & IGAE (lags 1--4) & Autoregression \\\\",
+  "    DFM Benchmark & Traditional indicators & PCA factors + bridge equation \\\\",
+  "    DFM Augmented & Traditional + Google Trends & PCA factors + bridge equation \\\\",
+  "    LASSO & Traditional + Trends + Mobility & $\\ell_1$-penalised regression \\\\",
+  "    Ridge & Traditional + Trends + Mobility & $\\ell_2$-penalised regression \\\\",
+  "    Random Forest & Traditional + Trends + Mobility & Ensemble of regression trees \\\\",
+  "    \\hline\\hline",
+  "  \\end{tabular}"
+)
+
+table2 <- latex_table(
+  table2_lines,
+  caption = "Model Specifications",
+  label   = "tab:model_specs"
+)
+
+# ── Table 3: Data sources ─────────────────────────────────────────────────────
+table3_lines <- c(
+  "  \\begin{tabular}{llll}",
+  "    \\hline\\hline",
+  "    Variable & Source & Frequency & Coverage \\\\",
+  "    \\hline",
+  "    IGAE (target) & INEGI & Monthly & 1993--2024 \\\\",
+  "    Industrial production & INEGI & Monthly & 1993--2024 \\\\",
+  "    Retail sales & INEGI (EMOE) & Monthly & 2017--2024 \\\\",
+  "    Unemployment rate & INEGI (ENOE) & Monthly & 2005--2024 \\\\",
+  "    Exchange rate (USD/MXN) & Banxico (SF43718) & Daily & 2010--2024 \\\\",
+  "    CETES 28-day rate & Banxico (SF43936) & Weekly & 2010--2024 \\\\",
+  "    M1 money supply & Banxico (SF311408) & Monthly & 2010--2024 \\\\",
+  "    Private credit & Banxico (SF30626) & Monthly & 2010--2024 \\\\",
+  "    Google Trends (7 keywords) & Google & Monthly & 2010--2024 \\\\",
+  "    Google Mobility & Google & Daily & 2020--2022 \\\\",
+  "    \\hline\\hline",
+  "  \\end{tabular}"
+)
+
+table3 <- latex_table(
+  table3_lines,
+  caption = "Data Sources and Coverage",
+  label   = "tab:data_sources"
+)
+
+# ── Write output file ─────────────────────────────────────────────────────────
+out_lines <- c(
+  "% results_summary.tex",
+  "% Auto-generated by compile_results.R — do not edit manually",
+  sprintf("%% Generated: %s", Sys.time()),
+  "",
+  "% ── Table 1: Forecast accuracy ──────────────────────────────────────────",
+  table1,
+  "% ── Table 2: Model specifications ──────────────────────────────────────",
+  table2,
+  "% ── Table 3: Data sources ───────────────────────────────────────────────",
+  table3
+)
+
+out_path <- file.path(ms_dir, "results_summary.tex")
+writeLines(out_lines, out_path)
+cat(sprintf("Saved -> %s\n", out_path))
+cat(sprintf("Tables: %d lines\n", length(out_lines)))
+
+# ── Preview ───────────────────────────────────────────────────────────────────
+cat("\n── Table 1 preview ──────────────────────────────────────────────────\n")
+cat(paste(tbl1_lines, collapse="\n"), "\n")

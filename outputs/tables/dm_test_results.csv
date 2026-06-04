@@ -1,0 +1,6 @@
+model,DM_stat,p_value,significant
+DFM Benchmark,-1.266,0.2055,FALSE
+DFM Augmented,-1.239,0.2153,FALSE
+LASSO,-1.185,0.236,FALSE
+Ridge,-1.112,0.2662,FALSE
+Random Forest,-1.233,0.2175,FALSE

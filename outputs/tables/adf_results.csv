@@ -1,0 +1,17 @@
+series,transformation,adf_stat,crit_5pct,reject_5pct
+IGAE,Level,-2.532,-2.88,FALSE
+Industrial production,Level,-3.576,-2.88,TRUE
+Retail sales,Level,-6.346,-2.89,TRUE
+Unemployment rate,Level,-1.059,-2.88,FALSE
+Exchange rate (MXN/USD),Level,-1.519,-2.88,FALSE
+CETES 28-day,Level,-0.606,-2.88,FALSE
+M1 money supply,Level,1.533,-2.88,FALSE
+Private credit,Level,-0.733,-2.88,FALSE
+IGAE,First difference,-11.275,-1.95,TRUE
+Industrial production,First difference,-11.942,-1.95,TRUE
+Retail sales,First difference,-10.157,-1.95,TRUE
+Unemployment rate,First difference,-12.084,-1.95,TRUE
+Exchange rate (MXN/USD),First difference,-9.46,-1.95,TRUE
+CETES 28-day,First difference,-4.747,-1.95,TRUE
+M1 money supply,First difference,-10.24,-1.95,TRUE
+Private credit,First difference,-7.667,-1.95,TRUE

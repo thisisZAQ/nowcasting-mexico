@@ -1,0 +1,32 @@
+\begin{table}[htbp]
+  \centering
+  \caption{Sub-period Nowcasting Accuracy (RMSE)}
+  \label{tab:subperiod}
+  \begin{tabular}{lcccc}
+    \hline\hline
+    Model & Full & Pre-COVID & COVID & Post-COVID \\
+    & (2018--2024) & (2018--19) & (2020--21) & (2022--24) \\
+    \hline
+    LASSO & NA & NA & NA & NA \\
+    Ridge & NA & NA & NA & NA \\
+    DFM Benchmark & NA & NA & NA & NA \\
+    DFM Augmented & NA & NA & NA & NA \\
+    Random Forest & NA & NA & NA & NA \\
+    AR(4) & NA & NA & NA & NA \\
+    AR(4) & NA & 0.0060 & 0.0964 & NA \\
+    DFM Benchmark & NA & 0.0056 & 0.0507 & NA \\
+    DFM Augmented & NA & 0.0062 & 0.0505 & NA \\
+    LASSO & NA & 0.0047 & 0.0202 & NA \\
+    Ridge & NA & 0.0047 & 0.0197 & NA \\
+    Random Forest & NA & 0.0043 & 0.0503 & NA \\
+    AR(4) & NA & NA & NA & 0.0067 \\
+    DFM Benchmark & NA & NA & NA & 0.0054 \\
+    DFM Augmented & NA & NA & NA & 0.0094 \\
+    LASSO & NA & NA & NA & 0.0143 \\
+    Ridge & NA & NA & NA & 0.0228 \\
+    Random Forest & NA & NA & NA & 0.0123 \\
+    \hline
+    \multicolumn{5}{l}{\footnotesize Note: RMSE of monthly log-growth of IGAE. Bold = best in full sample.} \\
+    \hline\hline
+  \end{tabular}
+\end{table}

@@ -2,7 +2,7 @@
 
 **Nowcasting Economic Activity in an Emerging Market Using Alternative High-Frequency Data: Evidence from Mexico**
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.XXXXXXX.svg)](https://doi.org/10.5281/zenodo.XXXXXXX)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20563443.svg)](https://doi.org/10.5281/zenodo.20563443)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 ## Research Question
@@ -94,7 +94,7 @@ nowcasting-mexico/
   title  = {nowcasting-mexico: Nowcasting Economic Activity in Mexico Using Alternative High-Frequency Data},
   year   = {2026},
   url    = {https://github.com/thisisZAQ/nowcasting-mexico},
-  doi    = {10.5281/zenodo.XXXXXXX}
+  doi    = {10.5281/zenodo.20563443}
 }
 ```
 

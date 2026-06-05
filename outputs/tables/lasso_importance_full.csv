@@ -1,0 +1,23 @@
+feature,coefficient,abs_coef,type,label
+ip_ldiff,0.0,0.0,Traditional,Ip Δlog
+unemp_diff,0.0,0.0,Traditional,Unemp Δ
+igae_lag3,0.0,0.0,AR lags,Igae Lag3
+igae_lag2,0.0,0.0,AR lags,Igae Lag2
+igae_lag1,0.0,0.0,AR lags,Igae Lag1
+mob_residential,0.0,0.0,Mobility,Mob Residential
+mob_grocery,0.0,0.0,Mobility,Mob Grocery
+mob_transit,0.0,0.0,Mobility,Mob Transit
+mob_work,0.0,0.0,Mobility,Mob Work
+mob_retail,0.0,0.0,Mobility,Mob Retail
+gt_venta_de_autos,0.0,0.0,Google Trends,Gt: Venta De Autos
+gt_tipo_de_cambio,0.0,0.0,Google Trends,Gt: Tipo De Cambio
+gt_remate,0.0,0.0,Google Trends,Gt: Remate
+gt_inflacin_Mexico,0.0,0.0,Google Trends,Gt: Inflacin Mexico
+gt_desempleo_Mexico,0.0,0.0,Google Trends,Gt: Desempleo Mexico
+gt_crdito_hipotecario,0.0,0.0,Google Trends,Gt: Crdito Hipotecario
+gt_IMSS_empleo,0.0,0.0,Google Trends,Gt: Imss Empleo
+credit_ldiff,0.0,0.0,Traditional,Credit Δlog
+m1_ldiff,0.0,0.0,Traditional,M1 Δlog
+cetes_diff,0.0,0.0,Traditional,Cetes Δ
+fx_ldiff,0.0,0.0,Traditional,Fx Δlog
+igae_lag4,0.0,0.0,AR lags,Igae Lag4

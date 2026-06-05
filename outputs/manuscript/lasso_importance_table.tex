@@ -1,0 +1,23 @@
+\begin{table}[htbp]
+  \centering
+  \caption{Variable Importance: Top 10 Features (ElasticNet)}
+  \label{tab:lasso_importance}
+  \begin{tabular}{llc}
+    \hline\hline
+    Feature & Type & Coefficient \\
+    \hline
+    Ind. production (Δlog) & Traditional & 0.01313 \\
+    IGAE lag 1 & AR lags & 0.00254 \\
+    Unemployment (Δ) & Traditional & -0.00178 \\
+    Exchange rate (Δlog) & Traditional & -0.00175 \\
+    IGAE lag 2 & AR lags & -0.00131 \\
+    IGAE lag 3 & AR lags & -0.00025 \\
+    mob_residential & Mobility & -0.00013 \\
+    GT: tipo de cambio & Google Trends & -0.00006 \\
+    GT: IMSS empleo & Google Trends & 0.00000 \\
+    GT: crédito hipotecario & Google Trends & -0.00000 \\
+    \hline
+    \multicolumn{3}{l}{\footnotesize Standardised coefficients, ElasticNet ($\alpha=0.001$, $\ell_1$-ratio$=0.9$).} \\
+    \hline\hline
+  \end{tabular}
+\end{table}

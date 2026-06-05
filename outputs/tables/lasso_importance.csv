@@ -1,0 +1,22 @@
+feature,coefficient,abs_coef,type,label
+ip_ldiff,0.01312747303585405,0.01312747303585405,Traditional,Ind. production (Δlog)
+igae_lag1,0.002543398322211848,0.002543398322211848,AR lags,IGAE lag 1
+unemp_diff,-0.0017825493727697365,0.0017825493727697365,Traditional,Unemployment (Δ)
+fx_ldiff,-0.0017455011032672598,0.0017455011032672598,Traditional,Exchange rate (Δlog)
+igae_lag2,-0.0013065806675025746,0.0013065806675025746,AR lags,IGAE lag 2
+igae_lag3,-0.0002466024143390039,0.0002466024143390039,AR lags,IGAE lag 3
+mob_residential,-0.00013463020076587875,0.00013463020076587875,Mobility,mob_residential
+gt_tipo_de_cambio,-5.968805411308483e-05,5.968805411308483e-05,Google Trends,GT: tipo de cambio
+gt_IMSS_empleo,0.0,0.0,Google Trends,GT: IMSS empleo
+gt_crdito_hipotecario,-0.0,0.0,Google Trends,GT: crédito hipotecario
+gt_desempleo_Mexico,0.0,0.0,Google Trends,GT: desempleo México
+gt_inflacin_Mexico,-0.0,0.0,Google Trends,GT: inflación México
+credit_ldiff,0.0,0.0,Traditional,Private credit (Δlog)
+gt_venta_de_autos,0.0,0.0,Google Trends,GT: venta de autos
+mob_retail,0.0,0.0,Mobility,mob_retail
+mob_work,0.0,0.0,Mobility,mob_work
+mob_transit,0.0,0.0,Mobility,mob_transit
+mob_grocery,0.0,0.0,Mobility,mob_grocery
+m1_ldiff,-0.0,0.0,Traditional,M1 money supply (Δlog)
+cetes_diff,0.0,0.0,Traditional,CETES 28-day (Δ)
+gt_remate,0.0,0.0,Google Trends,GT: remate

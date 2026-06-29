@@ -1,0 +1,13 @@
+dates:
+  start:            "2012-01-01"
+  end:              "2024-09-30"
+  forecast_horizon: 2
+
+target:
+  name:             "ISE"
+  description:      "Indicador de Seguimiento a la Economia (proxy for GDP)"
+  frequency:        "monthly"
+  transformation:   "log_diff"
+  publication_lag_days: 45
+  source_file:      "colombia/data/raw/dane/ise_origina
+

@@ -9,6 +9,11 @@
 
 Can alternative high-frequency data (Google Trends, mobility indicators, payment proxies) significantly improve real-time nowcasting accuracy of Mexican economic activity compared with models based solely on traditional official statistics?
 
+## Methodology
+
+Three nowcasting model specifications are estimated, ordered by complexity and by the richness of the data they exploit. In each case the target is the monthly growth rate of the IGAE. The models are designed so that each successive specification adds a clearly defined dimension of complexity relative to its predecessor, enabling clean attribution of any performance improvement.
+
+
 ## Key Finding
 
 LASSO with alternative data reduces RMSE by **72%** vs the AR(4) benchmark over 2018–2024, with the largest gains during the COVID-19 shock (2020–2021) where RMSE is reduced by **79%**.

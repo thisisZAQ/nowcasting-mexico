@@ -12,7 +12,7 @@ Can alternative high-frequency data (Google Trends, mobility indicators, payment
 ## Methodology
 
 Three nowcasting model specifications are estimated, ordered by complexity and by the richness of the data they exploit. In each case the target is the monthly growth rate of the IGAE. The models are designed so that each successive specification adds a clearly defined dimension of complexity relative to its predecessor, enabling clean attribution of any performance improvement.
-![Screenshot of a comment on a GitHub issue showing an image, added in the Markdown, of an Octocat smiling and raising a tentacle.](<img width="1302" height="1208" alt="image" src="https://github.com/user-attachments/assets/e9b41ac9-2d4b-485e-8ebf-7401da0f727b" />)
+![.](<img width="1302" height="1208" alt="image" src="https://github.com/user-attachments/assets/e9b41ac9-2d4b-485e-8ebf-7401da0f727b" />)
 
 
 ## Key Finding

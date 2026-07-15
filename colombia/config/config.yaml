@@ -1,13 +1,98 @@
 dates:
-  start:            "2012-01-01"
-  end:              "2024-09-30"
+  start: "2012-01-01"
+  end: "2024-09-30"
   forecast_horizon: 2
 
 target:
-  name:             "ISE"
-  description:      "Indicador de Seguimiento a la Economia (proxy for GDP)"
-  frequency:        "monthly"
-  transformation:   "log_diff"
+  name: "ISE"
+  description: "Indicador de Seguimiento a la Economia"
+  frequency: "monthly"
+  transformation: "log_diff"
   publication_lag_days: 45
-  source_file:      "colombia/data/raw/dane/ise_origina
+  source_file: "colombia/data/raw/dane/ise_original.csv"
 
+traditional:
+  industrial_production:
+    file: "colombia/data/raw/dane/industrial_production.csv"
+    frequency: "monthly"
+    transformation: "log_diff"
+    publication_lag_days: 45
+  retail_sales:
+    file: "colombia/data/raw/dane/retail_sales.csv"
+    frequency: "monthly"
+    transformation: "log_diff"
+    publication_lag_days: 45
+  unemployment_rate:
+    file: "colombia/data/raw/dane/unemployment_rate.csv"
+    frequency: "monthly"
+    transformation: "diff"
+    publication_lag_days: 30
+  exchange_rate:
+    file: "colombia/data/raw/banrep/exchange_rate.csv"
+    frequency: "daily"
+    transformation: "log_diff"
+    publication_lag_days: 1
+  interest_rate:
+    file: "colombia/data/raw/banrep/interest_rate.csv"
+    frequency: "monthly"
+    transformation: "diff"
+    publication_lag_days: 7
+  m1:
+    file: "colombia/data/raw/banrep/m1.csv"
+    frequency: "monthly"
+    transformation: "log_diff"
+    publication_lag_days: 30
+  credit:
+    file: "colombia/data/raw/banrep/credit.csv"
+    frequency: "monthly"
+    transformation: "log_diff"
+    publication_lag_days: 30
+
+alternative:
+  google_trends:
+    geo: "CO"
+    frequency: "monthly"
+    publication_lag_days: 3
+    keywords:
+      - "desempleo Colombia"
+      - "credito hipotecario Colombia"
+      - "inflacion Colombia"
+      - "tasa de cambio"
+      - "DIAN"
+      - "remate Colombia"
+      - "venta de carros"
+  google_mobility:
+    file: "colombia/data/raw/mobility/google_mobility_CO_combined.csv"
+    frequency: "daily"
+    publication_lag_days: 3
+
+models:
+  benchmark_ar:
+    lags: 4
+  benchmark_dfm:
+    factors: 2
+    lags: 2
+  augmented_dfm:
+    factors: 3
+    lags: 2
+  ml:
+    cv_folds: 5
+
+evaluation:
+  pseudo_oos_start: "2018-01-01"
+  metrics:
+    - "RMSE"
+    - "MAE"
+  forecast_comparison_test: "DM"
+
+seasonal:
+  method: "x13"
+  transform: "auto"
+
+paths:
+  raw: "colombia/data/raw/"
+  processed: "colombia/data/processed/"
+  final: "colombia/data/final/"
+  figures: "colombia/outputs/figures/"
+  tables: "colombia/outputs/tables/"
+  manuscript: "colombia/outputs/manuscript/"
